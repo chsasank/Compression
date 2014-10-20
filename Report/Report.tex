@@ -1,0 +1,80 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{tgpagella}
+\usepackage[T1]{fontenc}
+\usepackage{hyperref}
+
+\title{Lempel-Zev-Welch Compression Algorithm}
+
+\author{Sasank Chilamkurthy, Tharun Kumar Reddy, Varun Bairaboina}
+
+\date{25 April 2014}
+
+\begin{document}
+\maketitle
+
+%\begin{abstract}
+%We will implement two algorithms each from one of the two important aspects of information theory, which we have background on:
+%Source Coding and channel coding.
+%\end{abstract}
+
+
+%
+%\section{Overview}
+%We will implement
+%\begin {itemize}
+%\item Lempel Zev Welch compression algorithm for compressing large files. This scheme was shown to asymptotically optimum for large files. We have achieved about 50 \% compression ratio.
+%\item Decoding LDPC codes using Sum Product algorithm. These are capacity achieving codes proposed with very large parity check matrix.
+%\end {itemize}
+
+
+
+
+
+\section{Introduction}
+This is a source coding algorithm or in other words, lossless compression algorithm. This is a dictionary based algorithm. It stores previously appeared string patterns in a dictionary. If a pattern in dictionary appears again, we transmit the index of the entry instead of the entire pattern. This is how compression is achieved. We implemented a very basic version of this algorithm. Many variants of lz algorithm are available which incorporate various optimisations in dictionary management etc.
+
+\section{Encoding}
+
+    \subsection{High Level Description}
+        \begin{enumerate}
+        \item Maintain a list of substrings appeared before in dictionary.
+        \item Store the output string from the source in a buffer.
+        \item Check if the present string at the buffer is there in the dictionary.
+          \begin{itemize}
+          \item If yes, then wait for one more symbol to come into the buffer and then go back to step 2.
+          \item If no, then 
+        		\begin{enumerate}
+                \item Find the substring (buffer string excluding the last symbol) in the dictionary and transmit its index. 
+                \item Transmit the last symbol. 
+                \item Empty the buffer.
+        \end {enumerate}
+        \end{itemize}
+        \end{enumerate}
+
+
+    \subsection {Implementation details}
+        \begin{itemize}
+        \item Dictionary here requires searching by substrings. So we implemented dictionary as a \texttt{hashMap<String>} which has strings as its keys and integer indices as its values
+        \item We will not transmit integer index in base 10 or 2 because that will be waste of character space as ascii characters can take values in range 0-127. So, we transmit index in base 128 system by converting it to corresponding character sequence.
+        \end{itemize}
+
+
+\section{Decoding}
+Decoding is simmilar to encoding.
+
+    \begin{enumerate}
+    \item Maintain a list of substrings appeared before in dictionary.
+    \item Store the input string in buffer. Fill buffer with incoming characters until it is of expected length. We calculate expected length from current dictionary size.
+    \item Convert buffer[0:length-2] to integer using base 128 system. This was the index transmitted.
+    \item Access string at this index from dictionary and append buffer[length-1] to it and return this.
+    \end{enumerate}
+
+\section{Analysis}
+Everything (decoding and encoding) is done in constant time given performance of hashmap.
+
+\end{document}
