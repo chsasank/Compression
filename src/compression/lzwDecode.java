@@ -1,7 +1,8 @@
 package compression;
 import java.util.ArrayList;
 /**
- *
+ * This class contains methods to uncompress 'on the fly'
+ * It maintains a dictionary of previously encountered strings.
  * @author Sasank Chilamkurthy
  */
 

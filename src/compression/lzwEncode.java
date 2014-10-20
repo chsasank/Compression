@@ -2,7 +2,8 @@ package compression;
 
 import java.util.HashMap;
 /**
- * Be careful! I'm inserting spaces at end!
+ * This class contains methods to compress 'on the fly'.
+ * It builds up a dictionary as data arrives in.
  * @author Sasank Chilamkurthy
  */
 public class lzwEncode {

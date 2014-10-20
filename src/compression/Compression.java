@@ -4,7 +4,9 @@ package compression;
 import java.io.*;
 
 /**
- *
+ * This class has main method. 
+ * Can call methods lzCompress and lzUncompress to compress and uncompress files respectively
+ * Depends on classes lzwEncode and lzwDecode
  * @author Sasank Chilamkurthy
  */
 public class Compression {
